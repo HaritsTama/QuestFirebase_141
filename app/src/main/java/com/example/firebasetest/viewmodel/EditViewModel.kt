@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.firebasetest.modeldata.DetailSiswa
 import com.example.firebasetest.modeldata.UIStateSiswa
+import com.example.firebasetest.modeldata.toDataSiswa
 import com.example.firebasetest.modeldata.toUiStateSiswa
 import com.example.firebasetest.repositori.RepositorySiswa
 import com.example.firebasetest.view.route.DestinasiDetail
@@ -36,6 +37,17 @@ class EditViewModel(savedStateHandle: SavedStateHandle, private val repositorySi
     private fun validasiInput(uiState: DetailSiswa = uiStateSiswa.detailSiswa ): Boolean {
         return with(uiState) {
             nama.isNotBlank() && alamat.isNotBlank() && telpon.isNotBlank()
+        }
+    }
+
+    suspend fun editSatuSiswa() {
+        if (validasiInput(uiStateSiswa.detailSiswa)){
+            try {
+                repositorySiswa.editSatuSiswa(idSiswa, uiStateSiswa.detailSiswa.toDataSiswa())
+                println("Update Sukses: $idSiswa")
+            } catch (e: Exception) {
+                println("Update Error: ${e.message}")
+            }
         }
     }
 }
