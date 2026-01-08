@@ -10,7 +10,6 @@ import com.example.firebasetest.view.route.DestinasiDetail
 import com.example.firebasetest.modeldata.Siswa
 import com.example.firebasetest.repositori.RepositorySiswa
 import kotlinx.coroutines.launch
-import kotlinx.serialization.InternalSerializationApi
 import java.io.IOException
 
 sealed interface StatusUIDetail {
