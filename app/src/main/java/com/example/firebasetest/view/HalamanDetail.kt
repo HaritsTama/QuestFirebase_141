@@ -1,19 +1,25 @@
 package com.example.firebasetest.view
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.dimensionResource
@@ -76,6 +82,36 @@ fun DetailSiswaScreen(
                 onDeleteCancel = { deleteConfirmationRequired = false },
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium))
             )
+        }
+    }
+}
+
+@Composable
+fun BodyDetailSiswa(
+    statusUIDetail: StatusUIDetail,
+    modifier: Modifier = Modifier,
+    onDeleteClick: () -> Unit
+) {
+    when {
+        statusUIDetail is StatusUIDetail.Loading -> {
+            Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                CircularProgressIndicator()
+            }
+        }
+        statusUIDetail is StatusUIDetail.Success -> {
+            val siswa = statusUIDetail.satusiswa
+            if (siswa != null) {
+                ItemDetailSiswa(
+                    siswa = siswa,
+                    modifier = modifier.fillMaxWidth(),
+                    onDeleteClick = onDeleteClick
+                )
+            }
+        }
+        statusUIDetail is StatusUIDetail.Error -> {
+            Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                Text(text = "Gagal memuat data")
+            }
         }
     }
 }
