@@ -1,11 +1,17 @@
 package com.example.firebasetest.view
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
@@ -26,6 +32,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.firebasetest.R
+import com.example.firebasetest.modeldata.Siswa
 import com.example.firebasetest.view.route.DestinasiDetail
 import com.example.firebasetest.viewmodel.PenyediaViewModel
 
@@ -111,6 +118,55 @@ fun BodyDetailSiswa(
         statusUIDetail is StatusUIDetail.Error -> {
             Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                 Text(text = "Gagal memuat data")
+            }
+        }
+    }
+}
+
+@Composable
+fun ItemDetailSiswa(
+    modifier: Modifier = Modifier,
+    siswa: Siswa,
+    onDeleteClick: () -> Unit
+) {
+    Card(
+        modifier = modifier.padding(top = dimensionResource(id = R.dimen.padding_large)),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+        )
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(dimensionResource(id = R.dimen.padding_medium)),
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+        ) {
+            ComponentDetailSiswa(
+                judul = "ID",
+                isinya = siswa.id.toString()
+            )
+            ComponentDetailSiswa(
+                judul = "Nama",
+                isinya = siswa.nama
+            )
+            ComponentDetailSiswa(
+                judul = "Alamat",
+                isinya = siswa.alamat
+            )
+            ComponentDetailSiswa(
+                judul = "No Telepon",
+                isinya = siswa.telpon
+            )
+
+            Spacer(modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_small)))
+
+            Button(
+                onClick = onDeleteClick,
+                shape = MaterialTheme.shapes.small,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = "Hapus")
             }
         }
     }
